@@ -26,7 +26,6 @@ exports.authorize = (...permissions) => {
         const {jwt: {secret}} = getConfig();
         try {
             payload = jsonwebtoken.verify(token, secret)
-
         } catch (error) {
             throw new Unauthorized();
         }

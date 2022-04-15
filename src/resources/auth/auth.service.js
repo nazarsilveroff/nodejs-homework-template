@@ -3,6 +3,7 @@ const {Conflict, NotFound, Forbidden} = require('http-errors')
 const {getConfig} = require("../../config");
 const bcryptjs = require('bcryptjs')
 const jsonwebtoken = require("jsonwebtoken");
+const gravatar = require("gravatar");
 
 
 class AuthService {
@@ -16,8 +17,8 @@ class AuthService {
         return UserModel.findOne({email});
     }
 
-    async createUser(username, email, passwordHash, subscription, ) {
-        return UserModel.create({username, email, passwordHash, subscription})
+    async createUser(username, email, passwordHash, subscription, avatarURL) {
+        return UserModel.create({username, email, passwordHash, subscription, avatarURL})
     }
 
     async checkPassword(password, passwordHash) {
@@ -26,9 +27,9 @@ class AuthService {
 
     createToken(user) {
         const {jwt: {secret}} = getConfig()
-        const {id,subscription} = user
+        const {id, subscription} = user
         return jsonwebtoken.sign({
-            "uid":id,
+            "uid": id,
             "subscription": subscription
         }, secret)
     }
@@ -39,8 +40,8 @@ class AuthService {
         if (existingUser) throw new Conflict(`User with ${email} already exist`);
 
         const passwordHash = await this.hashPassword(password);
-
-        const user = await this.createUser(username, email, passwordHash, subscription);
+        const avatarURL = gravatar.url(email);
+        const user = await this.createUser(username, email, passwordHash, subscription, avatarURL);
 
         return user
     };

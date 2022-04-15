@@ -1,5 +1,5 @@
 function serializeUserResponse(user) {
-    return { "user": serializeUser(user) };
+    return {"user": serializeUser(user)};
 }
 
 // function serializeUsersListResponse(users) {
@@ -10,7 +10,8 @@ function serializeUserResponse(user) {
 function serializeUser(user) {
     return {
         email: user.email,
-        subscription:user.subscription,
+        subscription: user.subscription,
+        avatarURL: user.avatarURL
     };
 }
 

@@ -8,6 +8,9 @@ const {getConfig} = require("./config");
 const {contactsRouter} = require("./resources/contacts/contacts.router.controller");
 const {authRouter} = require("./resources/auth/auth.router.controller");
 const {usersRouter} = require("./resources/users/users.router.controller");
+const {multipartRouter} = require("./resources/multipart/multipart.router.controller");
+
+const avatarsPath = path.join(__dirname, 'public/avatars')
 
 class ContactsServer {
     constructor() {
@@ -32,7 +35,7 @@ class ContactsServer {
         dotenv.config({path: path.resolve(__dirname, '../.env')})
     };
 
-    async initDatabase(){
+    async initDatabase() {
         await mongoose.connect(getConfig().dbUrl)
     };
 
@@ -46,6 +49,8 @@ class ContactsServer {
         this.app.use('/contacts', contactsRouter);
         this.app.use("/api/auth", authRouter);
         this.app.use("/api/users", usersRouter);
+        this.app.use("/avatars", express.static(avatarsPath))
+        this.app.use(multipartRouter)
     };
 
     initErrorHandling() {
