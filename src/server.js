@@ -6,6 +6,8 @@ const cors = require("cors");
 const mongoose = require('mongoose')
 const {getConfig} = require("./config");
 const {contactsRouter} = require("./resources/contacts/contacts.router.controller");
+const {authRouter} = require("./resources/auth/auth.router.controller");
+const {usersRouter} = require("./resources/users/users.router.controller");
 
 class ContactsServer {
     constructor() {
@@ -41,7 +43,9 @@ class ContactsServer {
     };
 
     initRoutes() {
-        this.app.use('/contacts', contactsRouter)
+        this.app.use('/contacts', contactsRouter);
+        this.app.use("/api/auth", authRouter);
+        this.app.use("/api/users", usersRouter);
     };
 
     initErrorHandling() {
