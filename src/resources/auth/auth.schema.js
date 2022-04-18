@@ -15,3 +15,7 @@ exports.signInSchema = Joi.object({
     "email": emailSchema,
     "password": passwordSchema,
 });
+
+exports.replayMail = Joi.object({
+    "email": emailSchema,
+});

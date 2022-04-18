@@ -12,7 +12,7 @@ multipartRouter.post("/upload", upload.single("file"), catchErrors((req, res, ne
     res.status(200).send();
 }));
 
-multipartRouter.patch("/users/avatars", authorize(), upload.single("file"),resizeAvatar(), catchErrors(async (req, res, next) => {
+multipartRouter.patch("/users/avatars", authorize(), upload.single("file"), resizeAvatar(), catchErrors(async (req, res, next) => {
     const user = await usersService.updateUser(req.userId, req.body);
     res.status(200).send(serializeUser(user))
 }));
